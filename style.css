@@ -1,0 +1,20 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  height: 100vh;
+  margin: 0;
+  background: #4488AA;
+}
+
+h1 {
+	font-family: Arial, Verdana;
+	font-weight: 100;
+	margin-top: 0;
+  color: #222;
+}
+
+#container {
+  border: 10px solid #0d4d6d;
+}
