@@ -20,11 +20,11 @@ export default class UnitManager {
 
   create () {
     for (let unit of this.units) {
-      unit.sprite = game.add.sprite(unit.position.x, unit.position.y, unit.getName);
-      unit.sprite.pivot.x = unit.sprite.width * .5;
-      unit.sprite.pivot.y = unit.sprite.height * .5;
+      let sprite = this.sprites.create(unit.position.x, unit.position.y, unit.getName);
+      sprite.pivot.x = sprite.width * .5;
+      sprite.pivot.y = sprite.height * .5;
 
-      this.sprites.add(unit.sprite);
+      unit.sprite = sprite
     }
 
     game.physics.arcade.enable(this.sprites);
