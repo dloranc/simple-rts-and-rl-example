@@ -24,7 +24,6 @@ export default class extends Phaser.State {
 
   create () {
     this.selectBox = new SelectBox();
-    this.blueMoving = true;
 
     this.cursors = this.input.keyboard.createCursorKeys();
     game.input.mouse.capture = true;
@@ -71,18 +70,6 @@ export default class extends Phaser.State {
       this.blue.body.velocity.y = 0;
     }
 
-    if (this.checkOverlap(this.red, this.blue) && this.blueMoving) {
-      this.red.body.velocity.x = 0;
-      this.red.body.velocity.y = 0;
-
-      this.blue.body.velocity.x = 0;
-      this.blue.body.velocity.y = 0;
-
-      this.blueMoving = false;
-    } else {
-      this.blueMoving = true;
-    }
-
     game.physics.arcade.collide(this.red, this.blue);
   }
 
@@ -103,9 +90,4 @@ export default class extends Phaser.State {
       game.debug.body(this.blue);
     }
   }
-
-  checkOverlap (spriteA, spriteB) {
-    return Phaser.Circle.intersects(spriteA.body, spriteB.body);
-  }
-
 }
