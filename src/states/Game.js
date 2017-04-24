@@ -22,15 +22,18 @@ export default class extends Phaser.State {
     this.unitManager = new UnitManager(game);
 
     this.unitManager.add(new Unit('red', {
-        x: game.world.centerX + 200,
-        y: game.world.centerY,
-        speed: 250
+      life: 150,
+      x: game.world.centerX + 200,
+      y: game.world.centerY,
+      speed: 250
     }));
+
     this.unitManager.add(new Unit('blue', {
-        x: game.world.centerX - 200,
-        y: game.world.centerY,
-        speed: 300,
-        isPlayer: true
+      life: 160,
+      x: game.world.centerX - 200,
+      y: game.world.centerY,
+      speed: 300,
+      isPlayer: true
     }));
   }
 

@@ -1,6 +1,7 @@
 export default class Unit {
   constructor (name, params = {}) {
     const defaultParams = {
+      life: 100,
       x: 400,
       y: 400,
       speed: 300,
