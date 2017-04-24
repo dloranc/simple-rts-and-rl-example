@@ -20,8 +20,8 @@ export default class extends Phaser.State {
     };
 
     this.unitManager = new UnitManager(game);
-    this.unitManager.add(new Unit('red', game.world.centerX + 200, game.world.centerY, false));
-    this.unitManager.add(new Unit('blue', game.world.centerX - 200, game.world.centerY, true));
+    this.unitManager.add(new Unit('red', game.world.centerX + 200, game.world.centerY, 300, false));
+    this.unitManager.add(new Unit('blue', game.world.centerX - 200, game.world.centerY, 250, true));
   }
 
   preload () {
@@ -49,7 +49,7 @@ export default class extends Phaser.State {
       this.movePosition.y = game.input.mousePointer.y;
 
       for (let unit of this.unitManager.getPlayerUnits) {
-        game.physics.arcade.moveToXY(unit.sprite, this.movePosition.x, this.movePosition.y, 300);
+        game.physics.arcade.moveToXY(unit.sprite, this.movePosition.x, this.movePosition.y, unit.speed);
       }
     }
 
