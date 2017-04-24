@@ -9,6 +9,8 @@ export default class Unit {
     };
 
     this.name = name;
+    this.maxLife = params.life || defaultParams.life;
+    this.life = params.life || defaultParams.life;
     this.position = {};
     this.position.x = params.x || defaultParams.x;
     this.position.y = params.y || defaultParams.y;
