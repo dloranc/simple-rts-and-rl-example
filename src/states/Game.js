@@ -2,11 +2,9 @@
 import Phaser from 'phaser'
 import SelectBox from './../classes/select-box.js'
 import Utils from './../classes/utils.js'
+import UnitManager from './../classes/UnitManager.js'
+import Unit from './../classes/Unit.js'
 
-var movePosition = {
-    x: 0,
-    y: 0
-}
 
 export default class extends Phaser.State {
   init () {
@@ -15,11 +13,19 @@ export default class extends Phaser.State {
     };
 
     game.time.advancedTiming = true;
+
+    this.movePosition = {
+      x: 0,
+      y: 0
+    };
+
+    this.unitManager = new UnitManager(game);
+    this.unitManager.add(new Unit('red', game.world.centerX + 200, game.world.centerY, false));
+    this.unitManager.add(new Unit('blue', game.world.centerX - 200, game.world.centerY, true));
   }
 
   preload () {
-    game.load.image('red', 'assets/sprites/red.png');
-    game.load.image('blue', 'assets/sprites/blue.png');
+    this.unitManager.preload();
   }
 
   create () {
@@ -32,45 +38,31 @@ export default class extends Phaser.State {
 
     this.graphics = game.add.graphics(0, 0);
 
-    this.red = game.add.sprite(game.world.centerX + 200, game.world.centerY, 'red');
-    this.red.pivot.x = this.red.width * .5;
-    this.red.pivot.y = this.red.height * .5;
-
-    this.blue = game.add.sprite(game.world.centerX - 200, game.world.centerY, 'blue');
-    this.blue.pivot.x = this.blue.width * .5;
-    this.blue.pivot.y = this.blue.height * .5;
-
-    game.physics.arcade.enable([this.blue, this.red]);
-    this.red.body.collideWorldBounds = true;
-    this.blue.body.collideWorldBounds = true;
-
-    this.red.body.bounce.set(0);
-    this.red.body.setCircle(this.red.width / 2);
-    this.red.body.moves = true;
-
-    this.blue.body.bounce.set(0);
-    this.blue.body.setCircle(this.blue.width / 2);
-    this.blue.body.moves = true;
+    this.unitManager.create();
   }
 
   update () {
     this.selectBox.update();
 
     if (Utils.isRightMouseButtonDown()) {
-      movePosition.x = game.input.mousePointer.x;
-      movePosition.y = game.input.mousePointer.y;
+      this.movePosition.x = game.input.mousePointer.x;
+      this.movePosition.y = game.input.mousePointer.y;
 
-      game.physics.arcade.moveToXY(this.blue, movePosition.x, movePosition.y, 300);
+      for (let unit of this.unitManager.getPlayerUnits) {
+        game.physics.arcade.moveToXY(unit.sprite, this.movePosition.x, this.movePosition.y, 300);
+      }
     }
 
-    this.distance = game.physics.arcade.distanceToXY(this.blue, movePosition.x , movePosition.y);
+    for (let unit of this.unitManager.getPlayerUnits) {
+      unit.distance = game.physics.arcade.distanceToXY(unit.sprite, this.movePosition.x, this.movePosition.y);
 
-    if (Math.abs(Math.round(this.distance)) <= 16) {
-      this.blue.body.velocity.x = 0;
-      this.blue.body.velocity.y = 0;
+      if (Math.abs(Math.round(unit.distance)) <= 16) {
+        unit.sprite.body.velocity.x = 0;
+        unit.sprite.body.velocity.y = 0;
+      }
     }
 
-    game.physics.arcade.collide(this.red, this.blue);
+    game.physics.arcade.collide(this.unitManager.sprites);
   }
 
   render () {
@@ -84,10 +76,9 @@ export default class extends Phaser.State {
       game.debug.text("Position y: " + game.input.mousePointer.y, 10, 55);
       this.selectBox.debug();
 
-      game.debug.text("Distance: " + this.distance, 10, 205);
-
-      game.debug.body(this.red);
-      game.debug.body(this.blue);
+      for (let unit of this.unitManager.getUnits) {
+        game.debug.body(unit.sprite);
+      }
     }
   }
 }
