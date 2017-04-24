@@ -83,7 +83,7 @@ export default class extends Phaser.State {
       this.blueMoving = true;
     }
 
-    game.physics.arcade.overlap(this.red, this.blue);
+    game.physics.arcade.collide(this.red, this.blue);
   }
 
   render () {
