@@ -1,4 +1,4 @@
-# Simple RTS created with Phaser.js and using reinforcement learning.
+# Simple RTS created with Phaser.js and using reinforcement learning
 
 # Setup
 
