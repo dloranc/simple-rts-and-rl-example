@@ -14,6 +14,8 @@ export default class extends Phaser.State {
 
     game.time.advancedTiming = true;
 
+    this.hasRightMouseButtonPressed = false;
+
     this.movePosition = {
       x: 0,
       y: 0
@@ -58,12 +60,18 @@ export default class extends Phaser.State {
     this.selectBox.update();
 
     if (Utils.isRightMouseButtonDown()) {
-      this.movePosition.x = game.input.mousePointer.x;
-      this.movePosition.y = game.input.mousePointer.y;
+      if (!this.hasRightMouseButtonPressed) {
+        this.movePosition.x = game.input.mousePointer.x;
+        this.movePosition.y = game.input.mousePointer.y;
 
-      for (let unit of this.unitManager.getPlayerUnits) {
-        game.physics.arcade.moveToXY(unit.sprite, this.movePosition.x, this.movePosition.y, unit.speed);
+        for (let unit of this.unitManager.getPlayerUnits) {
+          game.physics.arcade.moveToXY(unit.sprite, this.movePosition.x, this.movePosition.y, unit.speed);
+        }
+
+        this.hasRightMouseButtonPressed = true;
       }
+    } else {
+      this.hasRightMouseButtonPressed = false;
     }
 
     for (let unit of this.unitManager.getPlayerUnits) {
