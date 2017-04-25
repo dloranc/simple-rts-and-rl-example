@@ -2,13 +2,13 @@ import Unit from './Unit.js'
 
 export default class UnitManager {
   constructor (game) {
-    this.units = []
+    this.units = [];
     this.sprites = game.add.group();
   }
 
   add (unit) {
     if (unit instanceof Unit) {
-      this.units.push(unit)
+      this.units.push(unit);
     }
   }
 
@@ -24,7 +24,7 @@ export default class UnitManager {
       sprite.pivot.x = sprite.width * .5;
       sprite.pivot.y = sprite.height * .5;
 
-      unit.sprite = sprite
+      unit.sprite = sprite;
     }
 
     game.physics.arcade.enable(this.sprites);
@@ -40,7 +40,7 @@ export default class UnitManager {
   }
 
   get getUnits () {
-    return this.units
+    return this.units;
   }
 
   get getPlayerUnits () {
@@ -52,7 +52,7 @@ export default class UnitManager {
       }
     }
 
-    return units
+    return units;
   }
 
   get getSprites () {
@@ -62,6 +62,6 @@ export default class UnitManager {
       sprites.push(unit.sprite);
     }
 
-    return sprites
+    return sprites;
   }
 }
