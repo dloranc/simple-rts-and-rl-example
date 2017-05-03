@@ -64,4 +64,20 @@ export default class UnitManager {
 
     return sprites;
   }
+
+  renderHealthBars (graphics) {
+    for (let unit of this.units) {
+      const lifePercentage = unit.life / unit.maxLife;
+
+      graphics.lineStyle(0, 0x00FF00, 1);
+      if (lifePercentage < 0.25) {
+        graphics.beginFill(0xFF0000, 1);
+      } else {
+        graphics.beginFill(0x00FF00, 1);
+      }
+
+      graphics.drawRect(unit.sprite.body.x, unit.sprite.body.y - 10, unit.sprite.body.width * lifePercentage, 5);
+      graphics.endFill();
+    }
+  }
 }
