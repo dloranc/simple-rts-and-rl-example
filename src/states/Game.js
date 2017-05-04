@@ -83,6 +83,8 @@ export default class extends Phaser.State {
       }
     }
 
+    this.unitManager.updateHealthBars();
+
     game.physics.arcade.collide(this.unitManager.sprites);
   }
 
@@ -90,7 +92,6 @@ export default class extends Phaser.State {
     this.graphics.kill();
     this.graphics = game.add.graphics(0, 0);
     this.selectBox.renderSelectBox(this.graphics);
-    this.unitManager.renderHealthBars(this.graphics);
 
     if (__DEV__) {
       game.debug.text(game.time.fps || '--', game.width - 30, 20, "#00ff00");

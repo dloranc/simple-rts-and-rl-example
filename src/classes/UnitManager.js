@@ -16,6 +16,8 @@ export default class UnitManager {
     for (let unit of this.units) {
       game.load.image(unit.getName, 'assets/sprites/' + unit.getName + '.png');
     }
+
+    game.load.image('healthbar', 'assets/sprites/health_bar.png');
   }
 
   create () {
@@ -25,6 +27,12 @@ export default class UnitManager {
       sprite.pivot.y = sprite.height * .5;
 
       unit.sprite = sprite;
+
+      let healthBar = game.make.sprite(0, -10, 'healthbar');
+      healthBar.width = sprite.width;
+      unit.sprite.addChild(healthBar);
+
+      unit.healthBar = healthBar;
     }
 
     game.physics.arcade.enable(this.sprites);
@@ -65,19 +73,10 @@ export default class UnitManager {
     return sprites;
   }
 
-  renderHealthBars (graphics) {
+  updateHealthBars () {
     for (let unit of this.units) {
       const lifePercentage = unit.life / unit.maxLife;
-
-      graphics.lineStyle(0, 0x00FF00, 1);
-      if (lifePercentage < 0.25) {
-        graphics.beginFill(0xFF0000, 1);
-      } else {
-        graphics.beginFill(0x00FF00, 1);
-      }
-
-      graphics.drawRect(unit.sprite.body.x, unit.sprite.body.y - 10, unit.sprite.body.width * lifePercentage, 5);
-      graphics.endFill();
+      unit.healthBar.width = unit.sprite.width * lifePercentage;
     }
   }
 }
