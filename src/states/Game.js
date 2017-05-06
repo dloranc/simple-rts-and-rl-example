@@ -83,6 +83,7 @@ export default class extends Phaser.State {
       }
     }
 
+    this.unitManager.moveEnemyUnits();
     this.unitManager.updateHealthBars();
 
     game.physics.arcade.collide(this.unitManager.sprites);

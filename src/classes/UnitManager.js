@@ -51,6 +51,18 @@ export default class UnitManager {
     return this.units;
   }
 
+  get getEnemyUnits () {
+    let units = [];
+
+    for (let unit of this.units) {
+      if (!unit.isPlayer) {
+        units.push(unit);
+      }
+    }
+
+    return units;
+  }
+
   get getPlayerUnits () {
     let units = [];
 
@@ -77,6 +89,30 @@ export default class UnitManager {
     for (let unit of this.units) {
       const lifePercentage = unit.life / unit.maxLife;
       unit.healthBar.width = unit.sprite.width * lifePercentage;
+    }
+  }
+
+  moveEnemyUnits () {
+    let playerUnits = this.getPlayerUnits;
+    let enemyUnits = this.getEnemyUnits;
+
+    let distanceToNearest = Number.MAX_SAFE_INTEGER;
+    let indexNearest = 0;
+    let index = 0;
+
+    for (let unit of playerUnits) {
+      let distance = game.physics.arcade.distanceToXY(unit.sprite, enemyUnits[0].sprite.x, enemyUnits[0].sprite.y);
+
+      if (distance < distanceToNearest) {
+        distanceToNearest = distance;
+        indexNearest = index;
+      }
+
+      index++;
+    }
+
+    for (let enemyUnit of enemyUnits) {
+      game.physics.arcade.moveToXY(enemyUnit.sprite, playerUnits[indexNearest].sprite.x, playerUnits[indexNearest].sprite.y, enemyUnit.speed);
     }
   }
 }
