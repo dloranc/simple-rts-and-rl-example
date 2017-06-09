@@ -112,7 +112,15 @@ export default class UnitManager {
     }
 
     for (let enemyUnit of enemyUnits) {
-      game.physics.arcade.moveToXY(enemyUnit.sprite, playerUnits[indexNearest].sprite.x, playerUnits[indexNearest].sprite.y, enemyUnit.speed);
+      const distance = game.physics.arcade.distanceToXY(enemyUnit.sprite, playerUnits[indexNearest].sprite.x, playerUnits[indexNearest].sprite.y);
+      const maxDistance = (playerUnits[indexNearest].sprite.width / 2 + enemyUnit.sprite.width / 2) + 6
+
+      if (distance > maxDistance) {
+        game.physics.arcade.moveToXY(enemyUnit.sprite, playerUnits[indexNearest].sprite.x, playerUnits[indexNearest].sprite.y, enemyUnit.speed);
+      } else {
+        enemyUnit.sprite.body.velocity.x = 0;
+        enemyUnit.sprite.body.velocity.y = 0;
+      }
     }
   }
 }
